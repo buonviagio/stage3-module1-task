@@ -1,6 +1,41 @@
-plugins {
-    id 'java'
+buildscript {
+    ext {
+        springBootVersion = '2.1.15.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
+
+allprojects {
+    group 'com.gradle.project'
+    version '1.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+    ext {
+        springBootVersion = '2.1.15.RELEASE'
+        lombokVersion = '1.18.22'
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //compile("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        //testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
 
 wrapper {
     gradleVersion = gradlewVersion
@@ -30,7 +65,8 @@ subprojects {
     }
 }
 
-task repack(type: Jar, dependsOn: ':module-main:build') {
+tasks.register('repack', Jar) {
+    dependsOn ':module-main:build'
     if (findProject(':module-main') != null) {
         entryCompression = ZipEntryCompression.STORED
         def buildJar = zipTree("${project(':module-main').buildDir}/libs/module-main-all.jar")
