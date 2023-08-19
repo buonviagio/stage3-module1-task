@@ -1,12 +1,12 @@
-package com.mjc.school.repository;
+package com.mjc.school.repository.implementation;
 
 import java.util.List;
 
 public interface Repository <T, A> {
-    List<T> getAllNews();
+    List<T> readAllNews();
     List<A> getAllAuthors();
 
-    T getNewsById(int id);
+    T readById(int id);
 
     T create(T t);
 

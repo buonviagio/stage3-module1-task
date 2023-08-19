@@ -1,9 +1,9 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.Author;
-import com.mjc.school.repository.News;
-import com.mjc.school.repository.Repository;
-import com.mjc.school.repository.RepositoryOperations;
+import com.mjc.school.repository.implementation.Author;
+import com.mjc.school.repository.implementation.News;
+import com.mjc.school.repository.implementation.Repository;
+import com.mjc.school.repository.implementation.RepositoryOperations;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -16,7 +16,7 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
 
     @Override
     public List<NewsDTO> getAllNews() {
-        List<NewsDTO> listOfNews = newsMapper.newsListToDTOList(newsRepository.getAllNews());
+        List<NewsDTO> listOfNews = newsMapper.newsListToDTOList(newsRepository.readAllNews());
         /*
         List<AuthorDTO> listOfAutors = this.getAllAuthors();
 

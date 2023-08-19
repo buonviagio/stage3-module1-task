@@ -1,13 +1,16 @@
-package com.mjc.school.repository;
+package com.mjc.school.repository.implementation;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class RepositoryOperations implements Repository<News, Author> {
+    public RepositoryOperations() {
+    }
+
     private DataSource dataSource = DataSource.getData();
 
     @Override
-    public List<News> getAllNews() {
+    public List<News> readAllNews() {
         return dataSource.getNewsList();
     }
 
@@ -17,7 +20,7 @@ public class RepositoryOperations implements Repository<News, Author> {
     }
 
     @Override
-    public News getNewsById(int id) {
+    public News readById(int id) {
         News news = dataSource.getNewsList().stream().filter(n -> n.getId() == id).findFirst().get();
         return news;
     }
@@ -40,7 +43,7 @@ public class RepositoryOperations implements Repository<News, Author> {
 
     @Override
     public News update(News n) {
-        News news = getNewsById(n.getId());
+        News news = readById(n.getId());
         news.setTitle(n.getTitle());
         news.setContent(n.getContent());
         news.setAuthorId(n.getAuthorId());

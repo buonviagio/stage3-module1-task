@@ -1,4 +1,4 @@
-package com.mjc.school.repository;
+package com.mjc.school.repository.implementation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

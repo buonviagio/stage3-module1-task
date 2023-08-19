@@ -14,33 +14,37 @@ public class Main {
 
     private static void start() {
         while (true) {
-            menuController.printMenu();
-            String value = scanner.nextLine();
-            Integer valueInt = 0;
             try {
-                valueInt = Integer.parseInt(value);
-            } catch (NumberFormatException e) {
-                System.out.println("Command not found.");
-                start();
-            }
-            switch (valueInt) {
-                case 1:
-                    menuController.getAllMenu();
-                    break;
-                case 2:
-                    menuController.getNewsById();
-                    break;
-                case 3:
-                    menuController.createNews();
-                    break;
-                case 4:
-                    menuController.updateNews();
-                    break;
-                case 5:
-                    menuController.removeNewsById();
-                    break;
-                case 0:
-                    System.exit(0);
+                menuController.printMenu();
+                String value = scanner.nextLine();
+                Integer valueInt = 0;
+                try {
+                    valueInt = Integer.parseInt(value);
+                } catch (NumberFormatException e) {
+                    System.out.println("Command not found.");
+                    start();
+                }
+                switch (valueInt) {
+                    case 1:
+                        menuController.getAllMenu();
+                        break;
+                    case 2:
+                        menuController.getNewsById();
+                        break;
+                    case 3:
+                        menuController.createNews();
+                        break;
+                    case 4:
+                        menuController.updateNews();
+                        break;
+                    case 5:
+                        menuController.removeNewsById();
+                        break;
+                    case 0:
+                        System.exit(0);
+                }
+            } catch (RuntimeException e){
+                System.out.println(e.getMessage());
             }
         }
     }
