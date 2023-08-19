@@ -12,5 +12,5 @@ public interface Repository <T, A> {
 
     T update(T t);
 
-    boolean deleteById(int id);
+    Boolean deleteById(int id);
 }

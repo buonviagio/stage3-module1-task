@@ -1,7 +1,7 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.implementation.Author;
-import com.mjc.school.repository.implementation.News;
+import com.mjc.school.repository.implementation.ModelAuthor;
+import com.mjc.school.repository.implementation.ModelNews;
 import com.mjc.school.repository.implementation.Repository;
 import com.mjc.school.repository.implementation.RepositoryOperations;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     private NewsCheck newsCheck = new NewsCheck();
-    private Repository<News, Author> newsRepository = new RepositoryOperations();
+    private Repository<ModelNews, ModelAuthor> newsRepository = new RepositoryOperations();
     private NewsMapper newsMapper = NewsMapper.INSTANCE;
 
     @Override
@@ -48,12 +48,12 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     @Override
     public NewsDTO create(NewsDTO newsDTO) {
         newsCheck.checkNews(newsDTO);
-        News news = newsMapper.dtoToNews(newsDTO);
+        ModelNews modelNews = newsMapper.dtoToNews(newsDTO);
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        news.setCreateDate(time);
-        news.setLastUpdateDate(time);
-        newsRepository.create(news);
-        return newsMapper.newsToDTO(news);
+        modelNews.setCreateDate(time);
+        modelNews.setLastUpdateDate(time);
+        newsRepository.create(modelNews);
+        return newsMapper.newsToDTO(modelNews);
     }
 
     @Override
@@ -62,10 +62,10 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
 
         checkNewsId(newsDTO.getId());
         newsCheck.checkNews(newsDTO);
-        News news = newsMapper.dtoToNews(newsDTO);
+        ModelNews modelNews = newsMapper.dtoToNews(newsDTO);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        news.setLastUpdateDate(date);
-        newsRepository.update(news);
+        modelNews.setLastUpdateDate(date);
+        newsRepository.update(modelNews);
         return newsDTO;
         //return newsMapper.newsToDTO(news);
 

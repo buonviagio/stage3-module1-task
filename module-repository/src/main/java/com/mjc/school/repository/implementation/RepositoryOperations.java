@@ -1,59 +1,59 @@
 package com.mjc.school.repository.implementation;
 
+import com.mjc.school.repository.implementation.utils.DataSource;
 import java.util.Comparator;
 import java.util.List;
 
-public class RepositoryOperations implements Repository<News, Author> {
+public class RepositoryOperations implements Repository<ModelNews, ModelAuthor> {
     public RepositoryOperations() {
     }
-
-    private DataSource dataSource = DataSource.getData();
+    private final DataSource dataSource = DataSource.getData();
 
     @Override
-    public List<News> readAllNews() {
+    public List<ModelNews> readAllNews() {
         return dataSource.getNewsList();
     }
 
     @Override
-    public List<Author> getAllAuthors() {
+    public List<ModelAuthor> getAllAuthors() {
         return dataSource.getAuthorsList();
     }
 
     @Override
-    public News readById(int id) {
-        News news = dataSource.getNewsList().stream().filter(n -> n.getId() == id).findFirst().get();
-        return news;
+    public ModelNews readById(int id) {
+        ModelNews modelNews = dataSource.getNewsList().stream().filter(n -> n.getId() == id).findFirst().get();
+        return modelNews;
     }
 
     @Override
-    public News create(News news) {
-        List<News> list = dataSource.getNewsList();
+    public ModelNews create(ModelNews modelNews) {
+        List<ModelNews> list = dataSource.getNewsList();
         if (list.size() == 0) {
-            news.setId(1);
-            list.add(news);
-            return news;
+            modelNews.setId(1);
+            list.add(modelNews);
+            return modelNews;
         } else {
-            news.setId(list.size() + 1);
-            list.sort(Comparator.comparing(News::getId));
+            modelNews.setId(list.size() + 1);
+            list.sort(Comparator.comparing(ModelNews::getId));
             //list.add(list.size(), news);
-            list.add(news);
-            return news;
+            list.add(modelNews);
+            return modelNews;
         }
     }
 
     @Override
-    public News update(News n) {
-        News news = readById(n.getId());
-        news.setTitle(n.getTitle());
-        news.setContent(n.getContent());
-        news.setAuthorId(n.getAuthorId());
-        news.setLastUpdateDate(n.getLastUpdateDate());
-        return news;
+    public ModelNews update(ModelNews n) {
+        ModelNews modelNews = readById(n.getId());
+        modelNews.setTitle(n.getTitle());
+        modelNews.setContent(n.getContent());
+        modelNews.setAuthorId(n.getAuthorId());
+        modelNews.setLastUpdateDate(n.getLastUpdateDate());
+        return modelNews;
     }
 
     @Override
-    public boolean deleteById(int id) {
-        List<News> list = dataSource.getNewsList();
+    public Boolean deleteById(int id) {
+        List<ModelNews> list = dataSource.getNewsList();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId() == id) {
                 list.remove(i);

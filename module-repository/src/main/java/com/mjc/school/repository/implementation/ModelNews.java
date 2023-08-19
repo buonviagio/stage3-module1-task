@@ -3,7 +3,7 @@ package com.mjc.school.repository.implementation;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class News {
+public class ModelNews {
     private int id;
     private String title;
     private String content;
@@ -11,7 +11,7 @@ public class News {
     private LocalDateTime lastUpdateDate;
     private int authorId;
 
-    public News(int id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, int authorId) {
+    public ModelNews(int id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, int authorId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -20,7 +20,7 @@ public class News {
         this.authorId = authorId;
     }
 
-    public News() {
+    public ModelNews() {
     }
 
     public int getId() {
@@ -75,8 +75,8 @@ public class News {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        News news = (News) o;
-        return Objects.equals(id, news.id) && Objects.equals(title, news.title) && Objects.equals(content, news.content) && Objects.equals(createDate, news.createDate) && Objects.equals(lastUpdateDate, news.lastUpdateDate) && Objects.equals(authorId, news.authorId);
+        ModelNews modelNews = (ModelNews) o;
+        return Objects.equals(id, modelNews.id) && Objects.equals(title, modelNews.title) && Objects.equals(content, modelNews.content) && Objects.equals(createDate, modelNews.createDate) && Objects.equals(lastUpdateDate, modelNews.lastUpdateDate) && Objects.equals(authorId, modelNews.authorId);
     }
 
     @Override
