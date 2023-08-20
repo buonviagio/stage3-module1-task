@@ -3,14 +3,14 @@ package com.mjc.school.service;
 import java.time.LocalDateTime;
 
 public class NewsDTO {
-    private int id;
+    private Long id;
     private String title;
     private String content;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-    private int authorId;
+    private Long authorId;
 
-    public NewsDTO(int id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, int authorId) {
+    public NewsDTO(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, Long authorId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -19,7 +19,7 @@ public class NewsDTO {
         this.authorId = authorId;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class NewsDTO {
         return lastUpdateDate;
     }
 
-    public int getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 }

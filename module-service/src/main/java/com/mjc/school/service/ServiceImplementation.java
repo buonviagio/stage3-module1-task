@@ -1,82 +1,58 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.implementation.ModelAuthor;
-import com.mjc.school.repository.implementation.ModelNews;
+import com.mjc.school.repository.implementation.NewsModel;
 import com.mjc.school.repository.implementation.Repository;
-import com.mjc.school.repository.implementation.RepositoryOperations;
+import com.mjc.school.repository.implementation.NewsRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 
 public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     private NewsCheck newsCheck = new NewsCheck();
-    private Repository<ModelNews, ModelAuthor> newsRepository = new RepositoryOperations();
+    private Repository<NewsModel> newsRepository = new NewsRepository();
     private NewsMapper newsMapper = NewsMapper.INSTANCE;
 
     @Override
     public List<NewsDTO> getAllNews() {
-        List<NewsDTO> listOfNews = newsMapper.newsListToDTOList(newsRepository.readAllNews());
-        /*
-        List<AuthorDTO> listOfAutors = this.getAllAuthors();
-
-        for (NewsDTO newsDTO : listOfNews) {
-            for (AuthorDTO authorDTO : listOfAutors) {
-                int authorId = authorDTO.getId();
-                if (newsDTO.getAuthorId() == authorId) {
-                    newsCheck.checkAuthor(authorDTO);
-                }
-            }
-            newsCheck.checkNews(newsDTO);
-        }
-
-         */
-        return listOfNews;
+        return newsMapper.newsListToDTOList(newsRepository.readAllNews());
     }
 
     @Override
-    public List<AuthorDTO> getAllAuthors() {
-        return newsMapper.authorListToDTOList(newsRepository.getAllAuthors());
-    }
-
-    @Override
-    public NewsDTO getNewsById(int id) {
+    public NewsDTO getNewsById(Long id) {
         checkNewsId(id);
-        return this.getAllNews().stream().filter(v -> v.getId() == id).findFirst().get();
+        return this.getAllNews().stream().filter(v -> Objects.equals(v.getId(), id)).findFirst().get();
     }
 
     @Override
     public NewsDTO create(NewsDTO newsDTO) {
         newsCheck.checkNews(newsDTO);
-        ModelNews modelNews = newsMapper.dtoToNews(newsDTO);
+        NewsModel newsModel = newsMapper.dtoToNews(newsDTO);
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        modelNews.setCreateDate(time);
-        modelNews.setLastUpdateDate(time);
-        newsRepository.create(modelNews);
-        return newsMapper.newsToDTO(modelNews);
+        newsModel.setCreateDate(time);
+        newsModel.setLastUpdateDate(time);
+        newsRepository.create(newsModel);
+        return newsMapper.newsToDTO(newsModel);
     }
 
     @Override
     public NewsDTO update(NewsDTO newsDTO) {
-        //List<NewsDTO> listOfNews = getAllNews();
-
         checkNewsId(newsDTO.getId());
         newsCheck.checkNews(newsDTO);
-        ModelNews modelNews = newsMapper.dtoToNews(newsDTO);
+        NewsModel newsModel = newsMapper.dtoToNews(newsDTO);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        modelNews.setLastUpdateDate(date);
-        newsRepository.update(modelNews);
+        newsModel.setLastUpdateDate(date);
+        newsRepository.update(newsModel);
         return newsDTO;
-        //return newsMapper.newsToDTO(news);
-
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Long id) {
         List<NewsDTO> newsDTOList = getAllNews();
         checkNewsId(id);
         for (int i = 0; i < newsDTOList.size(); i++) {
-            if (newsDTOList.get(i).getId() == id) {
+            if (Objects.equals(newsDTOList.get(i).getId(), id)) {
                 newsDTOList.remove(i);
                 newsRepository.deleteById(id);
                 return true;
@@ -85,42 +61,17 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
         return false;
     }
 
-    private void checkNewsId(int id) {
+    private void checkNewsId(Long id) {
         List<NewsDTO> newsDTOList = getAllNews();
         boolean flag = false;
         for (NewsDTO n : newsDTOList) {
-            if (n.getId() == id) {
+            if (Objects.equals(n.getId(), id)) {
                 flag = true;
+                break;
             }
         }
         if (!flag) {
             throw new CheckException("ERROR_CODE: 000001 ERROR_MESSAGE: News with id " + id + " does not exist.");
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        Service<NewsDTO, AuthorDTO> service = new ServiceImplementation();
-        LocalDateTime time = LocalDateTime.now();
-        NewsDTO newsDTO1 = new NewsDTO(23, "peace", "This is an amazing news", time, time, 3);
-        service.create(newsDTO1);
-        NewsDTO newsDTO2 = new NewsDTO(14, "NEWNhjjhEW", "NEWSHJJJH shgggd hhhggggs", time, time, 8);
-        service.update(newsDTO2);
-        service.deleteById(2);
-        service.deleteById(21);
-        service.deleteById(20);
-        service.deleteById(13);
-
-        List<NewsDTO> list = new ServiceImplementation().getAllNews();
-        for (NewsDTO n : list) {
-            System.out.println(" ID " + n.getId());
-            System.out.println(" TITLE " + n.getTitle());
-            System.out.println(" CREATE DATE " + n.getCreateDate());
-            System.out.println(" UPDATE DATE " + n.getLastUpdateDate());
-            System.out.println(" AUTHOR ID " + n.getAuthorId());
-            System.out.println(" CONTENT " + n.getContent());
-            System.out.println("--------------------------");
-        }
-    }
-     */
 }

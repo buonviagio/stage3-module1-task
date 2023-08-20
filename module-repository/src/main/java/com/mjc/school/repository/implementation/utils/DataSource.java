@@ -1,8 +1,8 @@
 package com.mjc.school.repository.implementation.utils;
 
+import com.mjc.school.repository.implementation.AuthorModel;
 import com.mjc.school.repository.implementation.CreateData;
-import com.mjc.school.repository.implementation.ModelAuthor;
-import com.mjc.school.repository.implementation.ModelNews;
+import com.mjc.school.repository.implementation.NewsModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ public class DataSource {
     private static final String PATH_OF_AUTHORS = "/Users/DimaHeinz/Desktop/test/stage3-module1-task/module-repository/src/main/resources/author.txt";
     private static final String PATH_OF_CONTENT = "/Users/DimaHeinz/Desktop/test/stage3-module1-task/module-repository/src/main/resources/content.txt";
     private static final String PATH_OF_TITLE = "/Users/DimaHeinz/Desktop/test/stage3-module1-task/module-repository/src/main/resources/title.txt";
-    private List<ModelNews> modelNewsList;
-    private List<ModelAuthor> modelAuthorList;
+    private List<NewsModel> newsModelList;
+    private List<AuthorModel> authorModelList;
     private Random random = new Random();
     private CreateData createData = CreateData.getInstance();
 
@@ -29,30 +29,30 @@ public class DataSource {
 
     private void initialize() {
         initializeAuthors();
-        modelNewsList = new ArrayList<>();
+        newsModelList = new ArrayList<>();
         String title;
         String content;
 
         for (int i = 1; i <= 20; i++) {
-            int r = random.nextInt(modelAuthorList.size());
+            int r = random.nextInt(authorModelList.size());
             LocalDateTime date = CreateData.getInstance().getDateTime();
             title = createData.getReadedData(PATH_OF_TITLE);
             content = createData.getReadedData(PATH_OF_CONTENT);
-            modelNewsList.add(new ModelNews(i, title, content, date, date, modelAuthorList.get(r).getId()));
+            newsModelList.add(new NewsModel((long)i, title, content, date, date, authorModelList.get(r).getId()));
         }
     }
 
     private void initializeAuthors() {
-        modelAuthorList = new ArrayList<>();
+        authorModelList = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
-            modelAuthorList.add(new ModelAuthor(i, createData.getReadedData(PATH_OF_AUTHORS)));
+            authorModelList.add(new AuthorModel((long)i, createData.getReadedData(PATH_OF_AUTHORS)));
         }
     }
-    public List<ModelNews> getNewsList() {
-        return modelNewsList;
+    public List<NewsModel> getNewsList() {
+        return newsModelList;
     }
 
-    public List<ModelAuthor> getAuthorsList() {
-        return modelAuthorList;
+    public List<AuthorModel> getAuthorsList() {
+        return authorModelList;
     }
 }

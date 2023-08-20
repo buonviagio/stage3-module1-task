@@ -3,15 +3,15 @@ package com.mjc.school.repository.implementation;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class ModelNews {
-    private int id;
+public class NewsModel {
+    private Long id;
     private String title;
     private String content;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-    private int authorId;
+    private Long authorId;
 
-    public ModelNews(int id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, int authorId) {
+    public NewsModel(Long id, String title, String content, LocalDateTime createDate, LocalDateTime lastUpdateDate, Long authorId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -20,14 +20,14 @@ public class ModelNews {
         this.authorId = authorId;
     }
 
-    public ModelNews() {
+    public NewsModel() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,11 +63,11 @@ public class ModelNews {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public int getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -75,8 +75,8 @@ public class ModelNews {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ModelNews modelNews = (ModelNews) o;
-        return Objects.equals(id, modelNews.id) && Objects.equals(title, modelNews.title) && Objects.equals(content, modelNews.content) && Objects.equals(createDate, modelNews.createDate) && Objects.equals(lastUpdateDate, modelNews.lastUpdateDate) && Objects.equals(authorId, modelNews.authorId);
+        NewsModel newsModel = (NewsModel) o;
+        return Objects.equals(id, newsModel.id) && Objects.equals(title, newsModel.title) && Objects.equals(content, newsModel.content) && Objects.equals(createDate, newsModel.createDate) && Objects.equals(lastUpdateDate, newsModel.lastUpdateDate) && Objects.equals(authorId, newsModel.authorId);
     }
 
     @Override

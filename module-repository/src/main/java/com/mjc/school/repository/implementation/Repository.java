@@ -2,15 +2,14 @@ package com.mjc.school.repository.implementation;
 
 import java.util.List;
 
-public interface Repository <T, A> {
+public interface Repository <T> {
     List<T> readAllNews();
-    List<A> getAllAuthors();
 
-    T readById(int id);
+    T readById(Long id);
 
     T create(T t);
 
     T update(T t);
 
-    Boolean deleteById(int id);
+    Boolean deleteById(Long id);
 }

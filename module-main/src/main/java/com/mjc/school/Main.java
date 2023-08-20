@@ -5,7 +5,7 @@ import com.mjc.school.controller.MenuController;
 import java.util.Scanner;
 
 public class Main {
-    private static MenuController menuController = new MenuController();
+    private static final MenuController menuController = new MenuController();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -17,7 +17,10 @@ public class Main {
             try {
                 menuController.printMenu();
                 String value = scanner.nextLine();
-                Integer valueInt = 0;
+                while (value.equals("")) {
+                    value = scanner.nextLine();
+                }
+                int valueInt = 0;
                 try {
                     valueInt = Integer.parseInt(value);
                 } catch (NumberFormatException e) {
@@ -42,6 +45,7 @@ public class Main {
                         break;
                     case 0:
                         System.exit(0);
+                    default: System.out.println("Command not found.");
                 }
             } catch (RuntimeException e){
                 System.out.println(e.getMessage());

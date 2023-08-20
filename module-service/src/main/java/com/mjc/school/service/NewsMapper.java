@@ -1,7 +1,7 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.implementation.ModelAuthor;
-import com.mjc.school.repository.implementation.ModelNews;
+import com.mjc.school.repository.implementation.AuthorModel;
+import com.mjc.school.repository.implementation.NewsModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -11,10 +11,10 @@ import java.util.List;
 public interface NewsMapper {
     NewsMapper INSTANCE = Mappers.getMapper(NewsMapper.class);
 
-    List<NewsDTO> newsListToDTOList (List<ModelNews> modelNewsList);
-    List<AuthorDTO> authorListToDTOList (List<ModelAuthor> modelAuthors);
-    NewsDTO newsToDTO (ModelNews modelNews);
-    ModelNews dtoToNews (NewsDTO newsFromDTO);
+    List<NewsDTO> newsListToDTOList (List<NewsModel> newsModelList);
+    List<AuthorDTO> authorListToDTOList (List<AuthorModel> authorModels);
+    NewsDTO newsToDTO (NewsModel newsModel);
+    NewsModel dtoToNews (NewsDTO newsFromDTO);
 
 
 }

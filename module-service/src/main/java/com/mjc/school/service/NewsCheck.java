@@ -2,13 +2,13 @@ package com.mjc.school.service;
 
 public class NewsCheck {
     private static NewsCheck newsCheck;
-    private static int TITLE_MIN = 5;
-    private static int TITLE_MAX = 30;
-    private static int CONTENT_FIELD_MIN = 5;
-    private static int CONTENT_FIELD_MAX = 255;
-    private static int AUTHOR_MIN = 3;
-    private static int AUTHOR_MAX = 15;
-    private static int AUTHOR_ID = 20;
+    private static final int TITLE_MIN = 5;
+    private static final int TITLE_MAX = 30;
+    private static final int CONTENT_FIELD_MIN = 5;
+    private static final int CONTENT_FIELD_MAX = 255;
+    private static final int AUTHOR_MIN = 3;
+    private static final int AUTHOR_MAX = 15;
+    private static final int AUTHOR_ID = 20;
     public static NewsCheck getInstance(){
         if (newsCheck == null){
             newsCheck = new NewsCheck();
@@ -43,7 +43,7 @@ public class NewsCheck {
         }
     }
 
-    private void checkAuthorId (int id){
+    private void checkAuthorId (Long id){
         if (id <= 0 || id > AUTHOR_ID){
             throw new CheckException("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: " + id);
         }

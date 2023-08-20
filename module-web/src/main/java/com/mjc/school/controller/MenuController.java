@@ -5,6 +5,7 @@ import com.mjc.school.service.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -32,66 +33,44 @@ public class MenuController {
     public void getNewsById() {
         System.out.println("Operation: Get news by id.");
         System.out.println("Enter news id:");
-        String str = scanner.nextLine();
+        Long i = input(scanner, "News");
         List<NewsDTO> list = service.getAllNews();
         boolean flag = false;
-        if (checkNumber(str)) {
-            int i = Integer.parseInt(str);
-            for (NewsDTO n : list) {
-                if (n.getId() == i) {
-                    print(service.getNewsById(i));
-                    flag = true;
-                }
+        for (NewsDTO n : list) {
+            if (Objects.equals(n.getId(), i)) {
+                print(service.getNewsById(i));
+                flag = true;
+                break;
             }
-            if (!flag) {
-                throw new CheckException("ERROR_CODE: 000001 ERROR_MESSAGE: News with id " + i + " does not exist.");
-            }
-        } else {
-            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
+        }
+        if (!flag) {
+            throw new CheckException("ERROR_CODE: 000001 ERROR_MESSAGE: News with id " + i + " does not exist.");
         }
     }
 
     public void createNews() {
         System.out.println("Operation: Create news.");
         System.out.println("Enter news title:");
-        String title = scanner.nextLine();
+        String title = input(scanner);
         System.out.println("Enter news content:");
-        String content = scanner.nextLine();
+        String content = input(scanner);
         System.out.println("Enter author id:");
-        String authorId = scanner.nextLine();
-        int id;
-        if (checkNumber(authorId)) {
-            id = Integer.parseInt(authorId);
-        } else {
-            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
-        }
+        Long authorId = input(scanner, "Author");
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        NewsDTO newsDTO = new NewsDTO(0, title, content, date, date, id);
+        NewsDTO newsDTO = new NewsDTO(0L, title, content, date, date, authorId);
         service.create(newsDTO);
     }
 
     public void updateNews() {
         System.out.println("Operation: Update news.");
         System.out.println("Enter news id:");
-        String newsId = scanner.nextLine();
-        int newsIdNumber = 0;
-        if (checkNumber(newsId)) {
-            newsIdNumber = Integer.parseInt(newsId);
-        } else {
-            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
-        }
+        Long newsIdNumber = input(scanner, "News");
         System.out.println("Enter news title:");
-        String newsTitle = scanner.nextLine();
+        String newsTitle = input(scanner);
         System.out.println("Enter news content:");
-        String newsContent = scanner.nextLine();
+        String newsContent = input(scanner);
         System.out.println("Enter author id:");
-        String authorId = scanner.nextLine();
-        int authorIdNumber = 0;
-        if (checkNumber(authorId)) {
-            authorIdNumber = Integer.parseInt(authorId);
-        } else {
-            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
-        }
+        Long authorIdNumber = input(scanner, "Author");
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         NewsDTO newsDTO = new NewsDTO(newsIdNumber, newsTitle, newsContent, date, date, authorIdNumber);
         service.update(newsDTO);
@@ -100,16 +79,7 @@ public class MenuController {
     public void removeNewsById() {
         System.out.println("Operation: Remove news by id.");
         System.out.println("Enter news id:");
-        String newsId = scanner.nextLine();
-        int newsIdNumber;
-        while (newsId.equals("")) {
-            newsId = scanner.nextLine();
-        }
-        if (checkNumber(newsId)) {
-            newsIdNumber = Integer.parseInt(newsId);
-        } else {
-            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
-        }
+        Long newsIdNumber = input(scanner, "News");
         System.out.println(service.deleteById(newsIdNumber));
     }
 
@@ -126,5 +96,25 @@ public class MenuController {
             return false;
         }
         return true;
+    }
+
+    private String input(Scanner scanner) {
+        String str = scanner.nextLine();
+        while (str.equals("")) {
+            str = scanner.nextLine();
+        }
+        return str;
+    }
+
+    private Long input(Scanner scanner, String param) {
+        String str = scanner.nextLine();
+        while (str.equals("")) {
+            str = scanner.nextLine();
+        }
+        try {
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            throw new CheckException("ERROR_CODE: 000013 ERROR_MESSAGE: " + param + " Id should be number");
+        }
     }
 }

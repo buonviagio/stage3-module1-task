@@ -2,20 +2,20 @@ package com.mjc.school.repository.implementation;
 
 import java.util.Objects;
 
-public class ModelAuthor {
-    private int id;
+public class AuthorModel {
+    private Long id;
     private String name;
 
-    public ModelAuthor(int id, String name) {
+    public AuthorModel(Long id, String name) {
         this.name = name;
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -31,8 +31,8 @@ public class ModelAuthor {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ModelAuthor modelAuthor = (ModelAuthor) o;
-        return Objects.equals(id, modelAuthor.id) && Objects.equals(name, modelAuthor.name);
+        AuthorModel authorModel = (AuthorModel) o;
+        return Objects.equals(id, authorModel.id) && Objects.equals(name, authorModel.name);
     }
 
     @Override
