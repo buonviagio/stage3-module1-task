@@ -1,4 +1,4 @@
-package com.mjc.school.service;
+package com.mjc.school.service.exceptions;
 
 public class CheckException extends RuntimeException{
     public CheckException(String message) {

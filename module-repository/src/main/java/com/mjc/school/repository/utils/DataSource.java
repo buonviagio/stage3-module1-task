@@ -1,8 +1,7 @@
-package com.mjc.school.repository.implementation.utils;
+package com.mjc.school.repository.utils;
 
-import com.mjc.school.repository.implementation.AuthorModel;
-import com.mjc.school.repository.implementation.CreateData;
-import com.mjc.school.repository.implementation.NewsModel;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,11 +47,11 @@ public class DataSource {
             authorModelList.add(new AuthorModel((long)i, createData.getReadedData(PATH_OF_AUTHORS)));
         }
     }
-    public List<NewsModel> getNewsList() {
+    public List<NewsModel> getAllNews() {
         return newsModelList;
     }
 
-    public List<AuthorModel> getAuthorsList() {
+    public List<AuthorModel> getAllAuthors() {
         return authorModelList;
     }
 }

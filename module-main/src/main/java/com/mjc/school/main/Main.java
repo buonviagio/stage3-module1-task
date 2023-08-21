@@ -1,6 +1,6 @@
-package com.mjc.school;
+package com.mjc.school.main;
 
-import com.mjc.school.controller.MenuController;
+import com.mjc.school.controller.implementation.MenuController;
 
 import java.util.Scanner;
 

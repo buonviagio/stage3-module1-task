@@ -3,12 +3,12 @@ package com.mjc.school.service;
 import java.util.List;
 
 public interface Service<T, A> {
-    List<T> getAllNews();
-    T getNewsById(Long id);
+    List<T> readAllNews();
+    T readById(Long id);
 
     T create(T t);
 
     T update(T t);
 
-    boolean deleteById(Long id);
+    Boolean deleteById(Long id);
 }

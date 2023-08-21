@@ -1,10 +1,10 @@
-package com.mjc.school.service;
+package com.mjc.school.service.dto;
 
-public class AuthorDTO {
+public class AuthorDto {
     private int id;
     private String name;
 
-    public AuthorDTO(int id, String name) {
+    public AuthorDto(int id, String name) {
         this.name = name;
         this.id = id;
     }

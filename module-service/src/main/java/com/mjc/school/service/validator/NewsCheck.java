@@ -1,4 +1,8 @@
-package com.mjc.school.service;
+package com.mjc.school.service.validator;
+
+import com.mjc.school.service.dto.AuthorDto;
+import com.mjc.school.service.dto.NewsDto;
+import com.mjc.school.service.exceptions.CheckException;
 
 public class NewsCheck {
     private static NewsCheck newsCheck;
@@ -19,7 +23,7 @@ public class NewsCheck {
     }
 
 
-    public void checkNews (NewsDTO newsDTO){
+    public void checkNews (NewsDto newsDTO){
         if (newsDTO == null) {
             throw new CheckException("The field is null ");
         } else {
@@ -29,7 +33,7 @@ public class NewsCheck {
         }
     }
 
-    public void checkAuthor (AuthorDTO authorDTO){
+    public void checkAuthor (AuthorDto authorDTO){
         if (authorDTO == null) {
             throw new CheckException("The field is null ");
         } else {

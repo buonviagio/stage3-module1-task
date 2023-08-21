@@ -1,6 +1,10 @@
-package com.mjc.school.controller;
+package com.mjc.school.controller.implementation;
 
 import com.mjc.school.service.*;
+import com.mjc.school.service.dto.AuthorDto;
+import com.mjc.school.service.dto.NewsDto;
+import com.mjc.school.service.exceptions.CheckException;
+import com.mjc.school.service.implementation.ServiceImplementation;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -13,7 +17,7 @@ public class MenuController {
     String[] arrayOfOperations = {
             "1 - Get all news.", "2 - Get news by id.", "3 - Create news.", "4 - Update news.", "5 - Remove news by id.", "0 - Exit."
     };
-    private Service<NewsDTO, AuthorDTO> service = new ServiceImplementation();
+    private Service<NewsDto, AuthorDto> service = new ServiceImplementation();
     private Scanner scanner = new Scanner(System.in);
 
     public void printMenu() {
@@ -24,8 +28,8 @@ public class MenuController {
     }
 
     public void getAllMenu() {
-        List<NewsDTO> list = service.getAllNews();
-        for (NewsDTO newsDTO : list) {
+        List<NewsDto> list = service.readAllNews();
+        for (NewsDto newsDTO : list) {
             print(newsDTO);
         }
     }
@@ -34,11 +38,11 @@ public class MenuController {
         System.out.println("Operation: Get news by id.");
         System.out.println("Enter news id:");
         Long i = input(scanner, "News");
-        List<NewsDTO> list = service.getAllNews();
+        List<NewsDto> list = service.readAllNews();
         boolean flag = false;
-        for (NewsDTO n : list) {
+        for (NewsDto n : list) {
             if (Objects.equals(n.getId(), i)) {
-                print(service.getNewsById(i));
+                print(service.readById(i));
                 flag = true;
                 break;
             }
@@ -57,7 +61,7 @@ public class MenuController {
         System.out.println("Enter author id:");
         Long authorId = input(scanner, "Author");
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        NewsDTO newsDTO = new NewsDTO(0L, title, content, date, date, authorId);
+        NewsDto newsDTO = new NewsDto(0L, title, content, date, date, authorId);
         service.create(newsDTO);
     }
 
@@ -72,7 +76,7 @@ public class MenuController {
         System.out.println("Enter author id:");
         Long authorIdNumber = input(scanner, "Author");
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        NewsDTO newsDTO = new NewsDTO(newsIdNumber, newsTitle, newsContent, date, date, authorIdNumber);
+        NewsDto newsDTO = new NewsDto(newsIdNumber, newsTitle, newsContent, date, date, authorIdNumber);
         service.update(newsDTO);
     }
 
@@ -83,7 +87,7 @@ public class MenuController {
         System.out.println(service.deleteById(newsIdNumber));
     }
 
-    private void print(NewsDTO n) {
+    private void print(NewsDto n) {
         System.out.println("NewsDtoResponse [id=" + n.getId() + ", title=" + n.getTitle() + ", content=" +
                 n.getContent() + ", createDate=" + n.getCreateDate() + ", lastUpdatedDate=" +
                 n.getLastUpdateDate() + ", authorId=" + n.getAuthorId() + "]");

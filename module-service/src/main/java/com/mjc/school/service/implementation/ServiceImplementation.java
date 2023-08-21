@@ -1,32 +1,38 @@
-package com.mjc.school.service;
+package com.mjc.school.service.implementation;
 
-import com.mjc.school.repository.implementation.NewsModel;
-import com.mjc.school.repository.implementation.Repository;
+import com.mjc.school.repository.model.NewsModel;
+import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.implementation.NewsRepository;
+import com.mjc.school.service.exceptions.CheckException;
+import com.mjc.school.service.validator.NewsCheck;
+import com.mjc.school.service.NewsMapper;
+import com.mjc.school.service.Service;
+import com.mjc.school.service.dto.AuthorDto;
+import com.mjc.school.service.dto.NewsDto;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
-public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
+public class ServiceImplementation implements Service<NewsDto, AuthorDto> {
     private NewsCheck newsCheck = new NewsCheck();
     private Repository<NewsModel> newsRepository = new NewsRepository();
     private NewsMapper newsMapper = NewsMapper.INSTANCE;
 
     @Override
-    public List<NewsDTO> getAllNews() {
+    public List<NewsDto> readAllNews() {
         return newsMapper.newsListToDTOList(newsRepository.readAllNews());
     }
 
     @Override
-    public NewsDTO getNewsById(Long id) {
+    public NewsDto readById(Long id) {
         checkNewsId(id);
-        return this.getAllNews().stream().filter(v -> Objects.equals(v.getId(), id)).findFirst().get();
+        return this.readAllNews().stream().filter(v -> Objects.equals(v.getId(), id)).findFirst().get();
     }
 
     @Override
-    public NewsDTO create(NewsDTO newsDTO) {
+    public NewsDto create(NewsDto newsDTO) {
         newsCheck.checkNews(newsDTO);
         NewsModel newsModel = newsMapper.dtoToNews(newsDTO);
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -37,7 +43,7 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     }
 
     @Override
-    public NewsDTO update(NewsDTO newsDTO) {
+    public NewsDto update(NewsDto newsDTO) {
         checkNewsId(newsDTO.getId());
         newsCheck.checkNews(newsDTO);
         NewsModel newsModel = newsMapper.dtoToNews(newsDTO);
@@ -48,12 +54,12 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        List<NewsDTO> newsDTOList = getAllNews();
+    public Boolean deleteById(Long id) {
+        List<NewsDto> newsDtoList = readAllNews();
         checkNewsId(id);
-        for (int i = 0; i < newsDTOList.size(); i++) {
-            if (Objects.equals(newsDTOList.get(i).getId(), id)) {
-                newsDTOList.remove(i);
+        for (int i = 0; i < newsDtoList.size(); i++) {
+            if (Objects.equals(newsDtoList.get(i).getId(), id)) {
+                newsDtoList.remove(i);
                 newsRepository.deleteById(id);
                 return true;
             }
@@ -62,9 +68,9 @@ public class ServiceImplementation implements Service<NewsDTO, AuthorDTO> {
     }
 
     private void checkNewsId(Long id) {
-        List<NewsDTO> newsDTOList = getAllNews();
+        List<NewsDto> newsDtoList = readAllNews();
         boolean flag = false;
-        for (NewsDTO n : newsDTOList) {
+        for (NewsDto n : newsDtoList) {
             if (Objects.equals(n.getId(), id)) {
                 flag = true;
                 break;
